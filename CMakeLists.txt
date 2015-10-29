@@ -1,9 +1,13 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 2.8)
 project(putty)
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 find_package(GTK2 2.6)
+
+if(GTK2_FOUND)
+   include_directories(${GTK2_INCLUDE_DIRS})
+endif()
 
 IF( WIN32 )
     add_definitions(-D_WINDOWS)
@@ -122,11 +126,13 @@ elseif(UNIX)
     add_executable(putty ${GTKTERM} unix/uxmisc.c misc.c ldisc.c settings.c unix/uxsel.c ${U_BE_ALL} unix/uxstore.c
         unix/uxsignal.c ${CHARSET} unix/uxputty.c ${NONSSH} ${UXSSH} ${UXMISC} unix/ux_x11.c unix/xpmputty.c
         unix/xpmpucfg.c)
+    target_link_libraries(putty ${GTK2_LIBRARIES})
 
     add_executable(pageant unix/uxpgnt.c unix/uxagentc.c pageant.c sshrsa.c sshpubk.c sshdes.c sshbn.c sshmd5.c
         version.c tree234.c misc.c sshaes.c sshsha.c sshdss.c sshsh256.c sshsh512.c sshecc.c
         conf.c unix/uxsignal.c nocproxy.c nogss.c be_none.c x11fwd unix/ux_x11.c unix/uxcons.c unix/gtkask.c
         unix/gtkmisc.c ${UXMISC})
+    target_link_libraries(pageant ${GTK2_LIBRARIES})
     endif()
 
 add_executable(plink unix/uxplink.c unix/uxcons.c ${NONSSH} ${UXSSH} ${U_BE_ALL} logging.c ${UXMISC} unix/uxsignal.c
