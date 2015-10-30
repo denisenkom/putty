@@ -33,6 +33,21 @@ IF( WIN32 )
         add_definitions(-DNO_MULTIMON)
     endif()
 
+    check_include_files("windows.h;cryptuiapi.h" HAVE_CRYPTUIAPI_H)
+    if (HAVE_CRYPTUIAPI_H)
+        add_definitions(-DHAVE_CRYPTUIAPI_H)
+    endif()
+
+    check_include_files("windows.h;cryptdlg.h" HAVE_CRYPTDLG_H)
+    if (HAVE_CRYPTDLG_H)
+        add_definitions(-DHAVE_CRYPTDLG_H)
+    endif()
+
+    check_include_files("windows.h;ntstatus.h" HAVE_NTSTATUS_H)
+    if (HAVE_NTSTATUS_H)
+        add_definitions(-DHAVE_NTSTATUS_H)
+    endif()
+
     check_symbol_exists(SecureZeroMemory "windows.h" HAVE_SECUREZEROMEMORY)
     if (NOT HAVE_SECUREZEROMEMORY)
         add_definitions(-DNO_SECUREZEROMEMORY)

@@ -8,6 +8,22 @@
 
 #ifdef _WINDOWS
 
+#ifndef CERT_SYSTEM_STORE_CURRENT_USER
+#define CERT_SYSTEM_STORE_CURRENT_USER (1 << 16)
+#endif
+#ifndef CERT_STORE_PROV_SYSTEM_A
+#define CERT_STORE_PROV_SYSTEM_A ((LPSTR)9)
+#endif
+#ifndef CERT_STORE_READONLY_FLAG
+#define CERT_STORE_READONLY_FLAG 0x8000
+#endif
+#ifndef CERT_STORE_OPEN_EXISTING_FLAG
+#define CERT_STORE_OPEN_EXISTING_FLAG 0x4000
+#endif
+#ifndef CERT_STORE_ENUM_ARCHIVED_FLAG
+#define CERT_STORE_ENUM_ARCHIVED_FLAG 0x200
+#endif
+
 struct capi_keyhandle_struct {
 	void* win_provider;
 	char* algorithm;

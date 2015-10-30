@@ -4,8 +4,13 @@
  */
 
 #include <windows.h>
+#include <wincrypt.h>
+#ifdef HAVE_CRYPTUIAPI_H
 #include <Cryptuiapi.h>
+#endif
+#ifdef HAVE_NTSTATUS_H
 #include <ntstatus.h>
+#endif
 #include "capi.h"
 #include "ssh.h"
 #define SHA1_BYTES 20
@@ -255,6 +260,8 @@ cleanup:
 	return retval;
 }
 
+#ifdef HAVE_CRYPTUIAPI_H
+
 BOOL capi_display_cert_ui(HWND hwnd, char* certID, WCHAR* title) {
 	BOOL retval = FALSE;
     PCCERT_CONTEXT pCertContext = NULL;
@@ -278,6 +285,8 @@ cleanup:
 
 	return retval;
 }
+
+#endif
 
 BOOL capi_get_pubkey_blob(PCCERT_CONTEXT pCertContext, unsigned char** pubkey, int *blob_len) {
 	BOOL retval = FALSE;

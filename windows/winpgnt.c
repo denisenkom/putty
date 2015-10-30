@@ -22,7 +22,9 @@
 #ifdef _WINDOWS
 #include <specstrings.h>
 #include <Wincrypt.h>
+#ifdef HAVE_CRYPTDLG_H
 #include <CryptDlg.h>
+#endif
 #include "capi.h"
 #endif
 /* PuTTY CAPI end */
@@ -1920,6 +1922,7 @@ static int CALLBACK KeyListProc(HWND hwnd, UINT msg,
             }
 	    return 0;
 /* PuTTY CAPI start */
+#ifdef HAVE_CRYPTUIAPI_H
 		case 100: { // listbox
 			if (HIWORD(wParam) == LBN_DBLCLK) {
 				int i, rCount, sCount, cCount;
@@ -1959,6 +1962,7 @@ static int CALLBACK KeyListProc(HWND hwnd, UINT msg,
 			return 0;
 		}
 /* PuTTY CAPI end */
+#endif
 	}
 	return 0;
       case WM_HELP:
