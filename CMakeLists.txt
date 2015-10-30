@@ -58,6 +58,11 @@ set(TERMINAL terminal.c wcwidth.c ldiscucs.c logging.c tree234.c minibidi.c
 set(GUITERM ${TERMINAL} windows/window.c windows/windlg.c windows/winctrls.c windows/sizetip.c windows/winucs.c windows/winprint.c
  windows/winutils.c windows/wincfg.c sercfg.c windows/winhelp.c windows/winjump.c miscucs.c)
 
+# Same thing on Unix.
+set(UXTERM  ${TERMINAL} unix/uxcfg sercfg unix/uxucs unix/uxprint timing callback miscucs)
+set(GTKTERM ${UXTERM} unix/gtkwin unix/gtkcfg unix/gtkdlg unix/gtkfont unix/gtkcols unix/gtkmisc unix/xkeysym)
+set(OSXTERM ${UXTERM} macosx/osxwin macosx/osxdlg macosx/osxctrls)
+
 # Non-SSH back ends (putty, puttytel, plink).
 set(NONSSH telnet.c raw.c rlogin.c ldisc.c pinger.c)
 
@@ -162,6 +167,7 @@ elseif(UNIX)
 
 add_executable(plink unix/uxplink.c unix/uxcons.c ${NONSSH} ${UXSSH} ${U_BE_ALL} logging.c ${UXMISC} unix/uxsignal.c
         unix/ux_x11.c noterm.c)
+target_link_libraries(plink dl)
 
 add_executable(puttygen cmdgen.c sshrsag.c sshdssg.c sshprime.c sshdes.c sshbn.c sshmd5.c version.c
     sshrand.c unix/uxnoise.c sshsha.c misc.c sshrsa.c sshdss.c unix/uxcons.c unix/uxstore.c unix/uxmisc.c
@@ -169,7 +175,10 @@ add_executable(puttygen cmdgen.c sshrsag.c sshdssg.c sshprime.c sshdes.c sshbn.c
     unix/uxgen.c notiming.c conf.c sshecc.c sshecdsag.c)
 
 add_executable(pscp pscp.c unix/uxsftp.c unix/uxcons.c ${UXSSH} ${BE_SSH} ${SFTP} wildcard.c ${UXMISC})
+target_link_libraries(pscp dl)
+
 add_executable(psftp psftp.c unix/uxsftp.c unix/uxcons.c ${UXSSH} ${BE_SSH} ${SFTP} wildcard.c ${UXMISC})
+target_link_libraries(psftp dl)
 
 endif()
 
